@@ -14,7 +14,7 @@ class Usuario extends Authenticatable
         'username',
         'contraseña',
         'email',
-        'roles',
+        'role_id',
     ];
 
     public function cliente()
@@ -30,5 +30,11 @@ class Usuario extends Authenticatable
     public function reportes()
     {
         return $this->hasMany(Reporte::class, 'generado_por');
+    }
+
+    public function roles() {
+
+        return $this->hasOne(Rol::class, 'role_id');
+
     }
 }

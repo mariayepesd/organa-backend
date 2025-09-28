@@ -13,16 +13,6 @@ class Plato extends Model
         'categoria',
         'tamaño_porcion',
         'pasos_preparacion',
-        'menu_id',
     ];
 
-    public function menu()
-    {
-        return $this->belongsTo(Menu::class, 'menu_id');
-    }
-
-    public function ingredientes()
-    {
-        return $this->hasMany(Ingrediente::class, 'plato_id');
-    }
 }

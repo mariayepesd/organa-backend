@@ -19,7 +19,7 @@ class UpdateUsuarioRequest extends FormRequest
             'username'   => 'sometimes|string|max:50|unique:usuario,username,' . $usuarioId,
             'contraseña' => 'sometimes|string|min:6',
             'email'      => 'sometimes|email|unique:usuario,email,' . $usuarioId,
-            'roles'      => 'in:chef,gerencia,ventas,domicilios,cliente,usuario',
+            'role_id'      => 'required|integer',
         ];
     }
 }

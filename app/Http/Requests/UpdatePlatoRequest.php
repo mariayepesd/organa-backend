@@ -18,7 +18,6 @@ class UpdatePlatoRequest extends FormRequest
             'categoria'         => 'sometimes|string|max:50',
             'tamaño_porcion'    => 'sometimes|string|max:50',
             'pasos_preparacion' => 'sometimes|string|max:500',
-            'menu_id'           => 'sometimes|exists:menu,id',
         ];
     }
 }

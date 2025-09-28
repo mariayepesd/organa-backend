@@ -12,13 +12,7 @@ class Ingrediente extends Model
         'nombre',
         'cantidad',
         'fecha_de_expiracion',
-        'plato_id',
     ];
-
-    public function plato()
-    {
-        return $this->belongsTo(Plato::class, 'plato_id');
-    }
 
     public function inventario()
     {

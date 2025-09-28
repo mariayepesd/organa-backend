@@ -24,6 +24,8 @@ class StoreUpdateMenuRequest extends FormRequest
         return [
             'nombre' => 'required|string|max:100',
             'descripcion' => 'nullable|string',
+            'fecha_inicio_semana' => 'required|date',
+            'fecha_fin_semana' => 'required|date',
             'chef_id' => 'required|exists:chef,id',
         ];
     }

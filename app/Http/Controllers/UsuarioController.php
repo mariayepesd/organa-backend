@@ -30,7 +30,7 @@ class UsuarioController extends Controller
                 'username'   => $request->username,
                 'contraseña' => Hash::make($request->contraseña),
                 'email'      => $request->email,
-                'roles'      => $request->roles ?? 'usuario',
+                'role_id'    => $request->role_id
 
             ]);
 
@@ -68,7 +68,7 @@ class UsuarioController extends Controller
                 'username'   => $request->username ?? $usuario->username,
                 'contraseña' => $request->contraseña ? Hash::make($request->contraseña) : $usuario->contraseña,
                 'email'      => $request->email ?? $usuario->email,
-                'roles'      => $request->roles ?? $usuario->roles,
+                'role_id'      => $request->role_id ?? $usuario->roles,
             ]);
 
             return response()->json($usuario, 200);

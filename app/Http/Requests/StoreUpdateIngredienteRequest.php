@@ -22,9 +22,9 @@ class StoreUpdateIngredienteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:100',
-            'descripcion' => 'nullable|string',
-            'disponibilidad' => 'required|boolean',
+            'nombre' => 'required|string|max:50',
+            'cantidad' => 'nullable|string',
+            'fecha_de_expiracion' => 'required|date',
         ];
     }
 }

@@ -18,7 +18,6 @@ class StorePlatoRequest extends FormRequest
             'categoria'         => 'required|string|max:50',
             'tamaño_porcion'    => 'required|string|max:50',
             'pasos_preparacion' => 'required|string|max:500',
-            'menu_id'           => 'required|exists:menu,id',
         ];
     }
 }

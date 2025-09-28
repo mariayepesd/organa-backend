@@ -10,6 +10,7 @@ class Menu extends Model
 
     protected $fillable = [
         'nombre',
+        'descripcion',
         'fecha_inicio_semana',
         'fecha_fin_semana',
         'chef_id',
@@ -20,8 +21,4 @@ class Menu extends Model
         return $this->belongsTo(Chef::class, 'chef_id');
     }
 
-    public function platos()
-    {
-        return $this->hasMany(Plato::class, 'menu_id');
-    }
 }
