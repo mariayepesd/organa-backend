@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Domicilio extends Model
 {
-    protected $table = 'domicilio';
+    protected $table = 'domicilios';
 
     protected $fillable = [
         'fecha_domicilio',

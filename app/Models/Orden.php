@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Orden extends Model
 {
-    protected $table = 'orden';
+    protected $table = 'ordenes';
 
     protected $fillable = [
         'fecha_orden',

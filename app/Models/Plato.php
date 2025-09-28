@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Plato extends Model
 {
-    protected $table = 'plato';
+    protected $table = 'platos';
 
     protected $fillable = [
         'nombre',
