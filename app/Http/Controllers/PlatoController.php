@@ -40,7 +40,9 @@ class PlatoController extends Controller
 
         try {
 
-            $plato = Plato::findOrFail($id);
+            $plato = Plato::with('ingredientes')
+                        ->findOrFail($id);
+
             return response()->json($plato);
 
         } catch (\Exception $e) {

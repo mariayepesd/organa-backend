@@ -15,4 +15,9 @@ class Plato extends Model
         'pasos_preparacion',
     ];
 
+    public function ingredientes()
+    {
+        return $this->belongsToMany(Ingrediente::class, 'ingredientes_platos', 'plato_id', 'ingrediente_id');
+    }
+
 }
