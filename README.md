@@ -1,169 +1,130 @@
-![Auth0 Laravel SDK](https://cdn.auth0.com/website/sdks/banners/laravel-auth0-banner.png)
+# 🌱 Organa - Backend
 
-:books: [Documentation](#documentation) — :rocket: [Getting Started](#getting-started) — :round_pushpin: [Routes](#demonstration-routes) — :wrench: [Default Changes](#changes-to-the-default-laravel-application)
+Proyecto backend desarrollado en Laravel 9 y PHP 8 para gestionar el restaurante organa con autenticación usando Auth0.
 
-This is a sample project demonstrating how to integrate [the Auth0 Laravel SDK](https://github.com/auth0/laravel-auth0) into a Laravel 9 application. For Laravel 10 applications, the integration steps are identical.
+## 📋 Requisitos previos
 
-## Documentation
+Antes de comenzar asegúrate de tener instalado:
 
-Guidance on integrating Auth0 into your Laravel application can be found here:
+* PHP >= 8.0
+* Composer
+* WAMP o XAMPP con MySQL activo
 
-- [Auth0 Laravel SDK Readme](https://github.com/auth0/laravel-auth0/blob/master/README.md)
-- [Auth0 Laravel SDK Session Authentication Quickstart](https://auth0.com/docs/quickstart/webapp/laravel)
-- [Auth0 Laravel SDK Token Authorization Quickstart](https://auth0.com/docs/quickstart/backend/laravel)
+## 🚀 Instalación paso a paso
 
-You may also find the following documentation from the SDK's GitHub repository useful:
-
-- [docs/Configuration](https://github.com/auth0/laravel-auth0/blob/master/docs/Configuration.md)
-- [docs/Events](https://github.com/auth0/laravel-auth0/blob/master/docs/Events.md)
-- [docs/Installation](https://github.com/auth0/laravel-auth0/blob/master/docs/Installation.md)
-- [docs/Management](https://github.com/auth0/laravel-auth0/blob/master/docs/Management.md)
-- [docs/Users](https://github.com/auth0/laravel-auth0/blob/master/docs/Users.md)
-
-## Getting Started
-
-Clone this repository:
+### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/auth0-samples/laravel auth0-laravel-quickstart
+git clone https://github.com/mariayepesd/organa-backend.git
 ```
 
-Set the working directory to the sample project root:
+### 2. Entrar al directorio del proyecto
 
 ```bash
-cd auth0-laravel-quickstart/sample
+cd organa-backend
 ```
 
-Install the dependencies:
+Instalar dependencias de Laravel
 
 ```bash
-composer install --no-dev
+composer install
 ```
 
-Download the Auth0 CLI:
+### 3. Configurar el archivo .env
+
+Copia el archivo de ejemplo:
+```bash
+cp .env.example .env
+```
+
+Edita .env y coloca tus credenciales de base de datos MySQL.
+
+### 4. Ejecutar migraciones y seeders (esto creará las tablas y datos iniciales):
+```bash
+php artisan migrate --seed
+```
+
+### 5. Generar la clave de aplicación y limpiar cachés
+```bash
+php artisan key:generate
+```
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/auth0/auth0-cli/main/install.sh | sh -s -- -b .
+php artisan cache:clear
 ```
-
-Authenticate with Auth0 using the CLI:
+```bash
+php artisan config:clear
+```
+Iniciar el servidor de desarrollo
 
 ```bash
-./auth0 login
-```
-
-> **Note**  
-> Authenticate as a "user" if prompted.
-
-Create an Auth0 Application:
-
-```bash
-./auth0 apps create \
-  --name "My Laravel Backend" \
-  --type "regular" \
-  --auth-method "post" \
-  --callbacks "http://localhost:8000/callback" \
-  --logout-urls "http://localhost:8000" \
-  --reveal-secrets \
-  --no-input \
-  --json > .auth0.app.json
-```
-
-Create an Auth0 API:
-
-```bash
-./auth0 apis create \
-  --name "My Laravel Backend API" \
-  --identifier "https://github.com/auth0/laravel-auth0" \
-  --offline-access \
-  --no-input \
-  --json > .auth0.api.json
-```
-
-Run the application:
-
-```
 php artisan serve
 ```
 
-## Demonstration Routes
+El proyecto estará disponible en:
+```bash
+👉 http://localhost:8000
+```
 
-This sample includes a few demonstration routes to help you get started.
+Si usas WAMP/XAMPP, también puedes configurar un VirtualHost para acceder con una URL personalizada (ej: http://organa.local).
 
-### Session-Based Authentication
+Si tienes errores de caché o configuración, vuelve a ejecutar:
 
-The SDK automatically registers the following routes for session-based authentication:
+```bash
+php artisan cache:clear
+php artisan config:clear
+```
+## 📡 Endpoints principales (API)
 
-| Method | Route                                        | Description                                                                                                |
-| ------ | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| GET    | [/login](https://localhost:8000/login)       | Starts the user authentication flow. Sets up some initial cookies, and redirects to Auth0 to authenticate. |
-| GET    | [/callback](https://localhost:8000/callback) | Handles the return callback from Auth0. Completes setting up the user's Laravel session.                   |
-| GET    | [/logout](https://localhost:8000/logout)     | Logs the user out.                                                                                         |
+La estructura general de las API es de la siguiente manera:
 
-The `routes/web.php` file contains routes that demonstrate working with session-based authentication. These are:
+### Obtener platos
 
-| Method | Route                                      | Description                                                     |
-| ------ | ------------------------------------------ | --------------------------------------------------------------- |
-| GET    | [/private](https://localhost:8000/private) | Demonstrates how to protect a route with the `auth` middleware. |
-| GET    | [/scope](https://localhost:8000/scope)     | Demonstrates how to protect a route with the `can` middleware.  |
-| GET    | [/colors](https://localhost:8000/colors)   | Demonstrates how to make Management API calls.                  |
+```http
+  GET /api/platos
+```
 
-### Token-Based Authorization
+### Obtener un plato
 
-The `routes/api.php` file contains routes that demonstrate token-based authorization. These are:
+```http
+  GET /api/platos/${id}
+```
 
-| Method | Route                                              | Description                                                          |
-| ------ | -------------------------------------------------- | -------------------------------------------------------------------- |
-| GET    | [/api](https://localhost:8000/api)                 | Demonstrates how to extract information from the request token.      |
-| GET    | [/api/private](https://localhost:8000/api/private) | Demonstrates how to protect an API route with the `auth` middleware. |
-| GET    | [/api/scope](https://localhost:8000/api/scope)     | Demonstrates how to protect an API route with the `can` middleware.  |
-| GET    | [/api/me](https://localhost:8000/api/me)           | Demonstrates how to make Management API calls.                       |
+| Parámetro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id del plato a consultar. |
 
-## Changes to the Default Laravel Application
+### Crear un nuevo plato
 
-This sample is based on [the default Laravel application](https://github.com/laravel/laravel) you can [create](https://laravel.com/docs/9.x/installation#your-first-laravel-project) using `laravel new` or `composer create-project`.
+```http
+  POST /api/platos/
+```
 
-> **Note**  
-> For Laravel 10, use `composer create-project laravel/laravel:^10.0` and follow the same steps outlined below.
+| Parámetro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `nombre`      | `string(50)` | **Required**. Nombre del plato. |
+| `categoria`      | `string(50)` | **Required**. Categoría o tag. |
+| `tamaño_porcion`      | `string(50)` | **Required**. Tamaño de una porción del plato. |
+| `pasos_preparacion`      | `string(500)` | **Required**. Pasos de su preparación. |
 
-Few changes are necessary to get started, as the SDK automatically sets up all the necessary guards, middleware and other services necessary to support authentication and authorization. The following is a list of changes that have been applied:
 
-- The `auth0/login` package has been added to the `composer.json` file, using:
+### Actualizar un plato
 
-    ```bash
-    composer require auth0/login:^7.8 --update-with-all-dependencies
-    ```
+```http
+  PUT /api/platos/${id}
+```
 
-- The `config/auth0.php` file was generated, using:
+| Parámetro | Tipo     | Descripción                       |
+| :-------- | :------- | :-------------------------------- |
+| `nombre`      | `string(50)` | **Required**. Nombre del plato. |
+| `categoria`      | `string(50)` | **Required**. Categoría o tag. |
+| `tamaño_porcion`      | `string(50)` | **Required**. Tamaño de una porción del plato. |
+| `pasos_preparacion`      | `string(500)` | **Required**. Pasos de su preparación. |
 
-    ```bash
-    php artisan vendor:publish --tag auth0
-    ```
 
-- The `routes/web.php` file was updated to include the demonstration routes.
-- The `routes/api.php` file was updated to include the demonstration routes.
+### Eliminar un plato
 
-## Feedback
+```http
+  DELETE /api/platos/${id}
+```
 
-We appreciate your feedback! Please create an issue in this repository or reach out to us on [Community](https://community.auth0.com/).
-
-## Vulnerability Reporting
-
-Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
-
-## What is Auth0?
-
-Auth0 helps you to easily:
-
-- implement authentication with multiple identity providers, including social (e.g., Google, Facebook, Microsoft, LinkedIn, GitHub, Twitter, etc), or enterprise (e.g., Windows Azure AD, Google Apps, Active Directory, ADFS, SAML, etc.)
-- log in users with username/password databases, passwordless, or multi-factor authentication
-- link multiple user accounts together
-- generate signed JSON Web Tokens to authorize your API calls and flow the user identity securely
-- access demographics and analytics detailing how, when, and where users are logging in
-- enrich user profiles from other data sources using customizable JavaScript rules
-
-[Why Auth0?](https://auth0.com/why-auth0)
-
-## License
-
-This project is licensed under the MIT license. See the [LICENSE](./LICENSE) file for more info.
