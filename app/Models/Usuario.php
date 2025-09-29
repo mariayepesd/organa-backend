@@ -38,7 +38,7 @@ use HasApiTokens, HasFactory, Notifiable;
 
     public function roles() {
 
-        return $this->hasOne(Rol::class, 'role_id');
+        return $this->hasOne(Rol::class, 'id', 'role_id');
 
     }
 }

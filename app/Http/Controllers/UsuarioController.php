@@ -47,7 +47,8 @@ class UsuarioController extends Controller
 
         try {
 
-            $usuario = Usuario::findOrFail($id);
+            $usuario = Usuario::with('roles')
+                            ->findOrFail($id);
 
             return response()->json($usuario, 200);
 
