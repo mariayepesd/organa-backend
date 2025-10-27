@@ -3,6 +3,10 @@
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
+if (function_exists('dl')) {
+    @dl('php_rdkafka.dll');
+}
+
 define('LARAVEL_START', microtime(true));
 
 /*

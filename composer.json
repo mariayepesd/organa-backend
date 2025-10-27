@@ -27,7 +27,8 @@
         "guzzlehttp/guzzle": "^7",
         "laravel/framework": "^9",
         "laravel/sanctum": "^3",
-        "laravel/tinker": "^2"
+        "laravel/tinker": "^2",
+        "mateusjunges/laravel-kafka": "^1.13"
     },
     "require-dev": {
         "fakerphp/faker": "^1",
