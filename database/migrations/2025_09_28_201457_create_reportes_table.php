@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('generado_por')->nullable();
             $table->unsignedBigInteger('estado_id')->nullable();
 
-            $table->foreign('generado_por')->references('id')->on('usuario')->onDelete('set null');
+            $table->foreign('generado_por')->references('id')->on('usuarios')->onDelete('set null');
             $table->foreign('estado_id')->references('id')->on('estados');
             $table->foreign('tipo_reporte_id')->references('id')->on('tipos_reportes')->onDelete('set null');
             $table->timestamps();
