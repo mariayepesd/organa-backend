@@ -32,7 +32,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           extensions: mbstring, curl, xml, intl, mysql, pdo_mysql, zip
           coverage: none
 
@@ -46,7 +46,7 @@ jobs:
 
       # Install Composer deps
       - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-req=ext-rdkafka
 
       # Copy .env
       - name: Create .env file
