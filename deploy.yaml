@@ -1,0 +1,94 @@
+trigger:
+  - develop   # Cambia la rama si es necesario
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  phpVersion: '8.1'
+  appEnv: 'production'
+
+steps:
+  # -----------------------------
+  # 1. Instalar PHP y extensiones
+  # -----------------------------
+  - task: UsePhpVersion@0
+    inputs:
+      versionSpec: '$(phpVersion)'
+
+  # -----------------------------
+  # 2. Instalar dependencias del sistema
+  # -----------------------------
+  - script: |
+      sudo apt-get update
+      sudo apt-get install -y zip unzip libpq-dev
+    displayName: "Instalar dependencias del sistema"
+
+  # -----------------------------
+  # 3. Cache de Composer
+  # -----------------------------
+  - task: Cache@2
+    inputs:
+      key: 'composer | "$(Agent.OS)" | composer.lock'
+      restoreKeys: |
+        composer | "$(Agent.OS)"
+      path: ~/.composer/cache
+    displayName: "Cache Composer"
+
+  # -----------------------------
+  # 4. Instalar Composer
+  # -----------------------------
+  - script: |
+      php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+      php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+      php -r "unlink('composer-setup.php');"
+    displayName: "Instalar Composer"
+
+  # -----------------------------
+  # 5. Instalar dependencias del proyecto
+  # -----------------------------
+  - script: |
+      composer install --no-interaction --prefer-dist --optimize-autoloader
+    displayName: "Composer install"
+
+  # -----------------------------
+  # 6. Crear archivo .env
+  #    (Opcional si usas variables secretas de Azure DevOps)
+  # -----------------------------
+  - script: |
+      cp .env.example .env
+      php artisan key:generate
+    displayName: "Configurar .env"
+
+  # -----------------------------
+  # 7. Permisos de storage y cache
+  # -----------------------------
+  - script: |
+      chmod -R 777 storage bootstrap/cache
+    displayName: "Establecer permisos"
+
+  # -----------------------------
+  # 8. Construir cache de Laravel
+  # -----------------------------
+  - script: |
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+    displayName: "Optimizar la app"
+
+  # -----------------------------
+  # 9. Ejecutar pruebas
+  # -----------------------------
+  - script: |
+      php artisan test --parallel
+    displayName: "Ejecutar tests"
+
+  # -----------------------------
+  # 10. Publicar artefactos para despliegue (opcional)
+  # -----------------------------
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(System.DefaultWorkingDirectory)'
+      artifact: 'laravel-app'
+      publishLocation: 'pipeline'
+    displayName: "Publicar artefacto"
