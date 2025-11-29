@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('reportes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tipo_reporte_id');
+            $table->unsignedBigInteger('tipo_reporte_id')->nullable();
             $table->dateTime('fecha_generado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->json('contenido');
             $table->string('titulo', 255);
