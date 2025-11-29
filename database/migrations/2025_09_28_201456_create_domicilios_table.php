@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedBigInteger('estado_id');
             $table->unsignedBigInteger('orden_id')->unique();
 
-            $table->foreign('estado_id')->references('id')->on('estados')->onDelete('restrict');
             $table->foreign('conductor_id')->references('id')->on('usuarios')->onDelete('restrict');
             $table->foreign('orden_id')->references('id')->on('ordenes')->onDelete('cascade');
             $table->timestamps();
