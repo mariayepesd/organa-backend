@@ -77,8 +77,8 @@ class IngredienteController extends Controller
         } catch (\Exception $e) {
 
             return response()->json(['error' => 'Error al eliminar ingrediente', 'message' => $e->getMessage()], 500);
-
-        }
+            #prueba 2
+        } 
     }
 }
 
